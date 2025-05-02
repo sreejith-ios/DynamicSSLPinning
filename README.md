@@ -38,8 +38,8 @@ text
 import DynamicSSLPinning
 
 let certStore = try CertStore(
-serviceUrl: URL(string: "https://your-backend.com/pinning-list.json")!,
-verificationKeyBase64: "BASE64_P256_PUBLIC_KEY"
+        serviceUrl: URL(string: "https://your-backend.com/pinning-list.json")!,
+        verificationKeyBase64: "BASE64_P256_PUBLIC_KEY"
 )
 
 ```
@@ -76,16 +76,16 @@ text
 import Combine
 
 let cancellable = certStore.$state.sink { state in
-switch state {
-case .upToDate:
-print("Pinning list is up to date.")
-case .refreshing:
-print("Refreshing pinning list...")
-case .error(let error):
-print("Pinning error: $$error)")
-default:
-break
-}
+       switch state {
+          case .upToDate:
+            print("Pinning list is up to date.")
+          case .refreshing:
+            print("Refreshing pinning list...")
+          case .error(let error):
+            print("Pinning error: $$error)")
+          default:
+            break
+       }
 }
 
 ```
@@ -123,10 +123,10 @@ session.dataTask(with: paymentRequest) { ... }
 ```json
 {
 "fingerprints": [
-{ "sha256": "abcdef123456..." },
-{ "sha256": "123456abcdef..." }
-],
-"signature": "BASE64_SIGNATURE"
+    { "sha256": "abcdef123456..." },
+    { "sha256": "123456abcdef..." }
+  ],
+ "signature": "BASE64_SIGNATURE"
 }
 
 ```
@@ -142,9 +142,10 @@ import DynamicSSLPinning
 import Combine
 
 let certStore = try CertStore(
-serviceUrl: URL(string: "https://your-backend.com/pinning-list.json")!,
-verificationKeyBase64: "BASE64_P256_PUBLIC_KEY"
-)
+      serviceUrl: URL(string: "https://your-backend.com/pinning-list.json")!,
+      verificationKeyBase64: "BASE64_P256_PUBLIC_KEY"
+ )
+
 let delegate = PinningSessionDelegate(certStore: certStore)
 let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
 
