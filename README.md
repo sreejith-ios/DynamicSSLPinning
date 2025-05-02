@@ -34,7 +34,7 @@ text
 ## Usage
 
 ### 1. Initialize the CertStore
-
+```swift
 import DynamicSSLPinning
 
 let certStore = try CertStore(
@@ -42,7 +42,7 @@ serviceUrl: URL(string: "https://your-backend.com/pinning-list.json")!,
 verificationKeyBase64: "BASE64_P256_PUBLIC_KEY"
 )
 
-text
+```
 
 - `serviceUrl`: The endpoint serving your signed pinning list (see Backend section).
 - `verificationKeyBase64`: The base64-encoded ECDSA P-256 public key used to verify the list’s signature.
@@ -51,10 +51,11 @@ text
 
 ### 2. Create a PinningSessionDelegate
 
+```swift
 let delegate = PinningSessionDelegate(certStore: certStore)
 let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
 
-text
+```
 
 ---
 
@@ -71,6 +72,7 @@ text
 
 ### 4. Observe Pinning State with Combine
 
+```swift
 import Combine
 
 let cancellable = certStore.$state.sink { state in
@@ -86,7 +88,7 @@ break
 }
 }
 
-text
+```
 
 ---
 
@@ -100,6 +102,7 @@ text
 
 **Example-Securing Payment Gateway Calls:**
 
+```swift
 // Existing code (before)
 let session = URLSession.shared
 session.dataTask(with: paymentRequest) { ... }
@@ -108,7 +111,7 @@ session.dataTask(with: paymentRequest) { ... }
 let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
 session.dataTask(with: paymentRequest) { ... }
 
-text
+```
 
 ---
 
@@ -117,7 +120,7 @@ text
 - Serve a JSON file containing an array of certificate fingerprints (SHA256 hashes) and a digital signature.
 - Sign the list with your ECDSA P-256 private key.
 - Example pinning list structure:
-
+```json
 {
 "fingerprints": [
 { "sha256": "abcdef123456..." },
@@ -126,7 +129,7 @@ text
 "signature": "BASE64_SIGNATURE"
 }
 
-text
+```
 
 - Provide the matching public key to your app.
 
@@ -134,6 +137,7 @@ text
 
 ## Example: Full Flow
 
+``` swift
 import DynamicSSLPinning
 import Combine
 
@@ -153,7 +157,7 @@ let cancellable = certStore.$state.sink { state in
 print("CertStore state: $$state)")
 }
 
-text
+```
 
 ---
 
